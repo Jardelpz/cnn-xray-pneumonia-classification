@@ -68,7 +68,6 @@ history = model.fit(
     validation_steps=len(val_generator)
 )
 
-# AQUI PRA BAIXO E SO TESTE PODERIA FAZER TUDO NO OUTRO ARQUIVO
 
 # Avaliar o modelo no conjunto de teste
 test_loss, test_acc = model.evaluate(test_generator, steps=len(test_generator))
