@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Classificação de Pneumonia</title>
+</head>
+<body>
+    <h1>Selecione uma imagem de pulmão para classificar:</h1>
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".jpg, .jpeg, .png">
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
