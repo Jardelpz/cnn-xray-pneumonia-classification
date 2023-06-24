@@ -13,7 +13,7 @@ val_dir = 'input/val'
 test_dir = 'input/test'
 
 # Dimensões das imagens de entrada
-input_shape = (150, 150, 3)  # Pode ajustar o tamanho conforme necessário
+input_shape = (150, 150, 1)  # Pode ajustar o tamanho conforme necessário
 
 # Pré-processamento e aumento de dados
 train_datagen = ImageDataGenerator(rescale=1.0/255.0)
@@ -25,6 +25,7 @@ train_generator = train_datagen.flow_from_directory(
     target_size=(150, 150),  # Alterei para o tamanho desejado das imagens de entrada
     batch_size=32,
     class_mode='binary',
+    color_mode='grayscale',
     classes=['NORMAL', 'PNEUMONIA']
 )
 
@@ -33,6 +34,7 @@ val_generator = val_datagen.flow_from_directory(
     target_size=(150, 150),  # Alterei para o tamanho desejado das imagens de entrada
     batch_size=32,
     class_mode='binary',
+    color_mode='grayscale',
     classes=['NORMAL', 'PNEUMONIA']
 )
 
@@ -41,6 +43,7 @@ test_generator = test_datagen.flow_from_directory(
     target_size=(150, 150),  # Alterei para o tamanho desejado das imagens de entrada
     batch_size=32,
     class_mode='binary',
+    color_mode='grayscale',
     classes=['NORMAL', 'PNEUMONIA']
 )
 
@@ -68,6 +71,7 @@ history = model.fit(
     validation_steps=len(val_generator)
 )
 
+# AQUI PRA BAIXO E SO TESTE PODERIA FAZER TUDO NO OUTRO ARQUIVO
 
 # Avaliar o modelo no conjunto de teste
 test_loss, test_acc = model.evaluate(test_generator, steps=len(test_generator))

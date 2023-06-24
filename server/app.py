@@ -1,9 +1,14 @@
-from flask import Flask, render_template, request
-from keras.models import load_model
-from PIL import Image
 import numpy as np
+
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import load_img
+from tensorflow.keras.preprocessing.image import img_to_array
+from tensorflow.keras.preprocessing.image import array_to_img
+from flask import Flask, render_template, request
+from keras.models import load_model
+from PIL import Image, ImageOps
+
 
 app = Flask(__name__)
 model = load_model('modelo.h5')
@@ -12,9 +17,13 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 
 # Função para carregar e validar uma única imagem
 def validar_imagem(caminho_imagem, modelo):
-    img = image.load_img(caminho_imagem, target_size=(150, 150))
-    img_array = image.img_to_array(img)
+    # Carregar a imagem em escala de cinza
+    img = load_img(caminho_imagem, color_mode='grayscale', target_size=(150, 150))
+    # Converter a imagem para um array numpy
+    img_array = img_to_array(img)
+    # Expandir as dimensões do array para corresponder ao formato esperado pelo modelo
     img_array = np.expand_dims(img_array, axis=0)
+    # Normalizar os valores de pixel no intervalo [0, 1]
     img_array /= 255.0
 
     # Fazer a previsão com o modelo
@@ -27,6 +36,7 @@ def validar_imagem(caminho_imagem, modelo):
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
